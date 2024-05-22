@@ -7,19 +7,21 @@
 #    http://shiny.rstudio.com/
 #
 
-library(data.table)
 library(shiny)
+
+library(data.table)
+
 library(plotly)
 library(ggplot2)
-library(maps)
-library(raster)
 library(scales)
+
 library(ggmap)
-library(ggalt)
-library(basemaps)
 library(osmdata)
-library(sf)
-library(ggmap)
+
+# Register stadia api key for maps
+library(dotenv)
+load_dot_env('.env')
+register_stadiamaps(Sys.getenv("stadia_key"), write = TRUE)
 
 # ========================================
 # ********* Loading our Database *********
@@ -374,7 +376,7 @@ server <- function(input, output) {
             theme_void()
     })
     output$citymap <- renderPlotly({
-        ggmap(get_map(getbb("new york city"), zoom=11, source="stamen", maptype="terrain-background"))+
+        ggmap(get_stadiamap(getbb("new york city"), zoom=11, maptype="stamen_terrain_background"))+
         {if (input$commercial) {
             geom_point(data=nyc_gas_commercial,
                    aes(x=long, y=lat, Building="Commercial", zip=zip_code, 
