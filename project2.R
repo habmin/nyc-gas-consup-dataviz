@@ -20,8 +20,10 @@ library(basemaps)
 library(osmdata)
 library(sf)
 library(ggmap)
+
 # ========================================
 # ********* Loading our Database *********
+# ========================================
 
 # our main data
 nyc_gas_data <- fread("Natural_Gas_Consumption_by_ZIP_Code_-_2010.csv")
@@ -33,12 +35,10 @@ building_type_total <- fread("building_type_total.csv")
 borough_total <- fread("borough_total.csv")
 
 # ========================================
-
-# ========================================
 # ******* Augmenting our Database ********
+# ========================================
 
 # adding long, lat, and borough to our dataset from another dataset
-
 zipcodes <- fread("zipcodes.csv")
 
 lat_vec <- c()
@@ -73,9 +73,8 @@ nyc_gas_data$long <- long_vec
 nyc_gas_data$borough <- borough
 
 # ========================================
-
-# ========================================
 # ********* Factoring Datasets  **********
+# ========================================
 nyc_gas_commercial <- c()
 nyc_gas_residential <- c()
 nyc_gas_l_residential <- c()
@@ -97,10 +96,10 @@ for (i in 1:nrow(nyc_gas_data)){
     else if (nyc_gas_data[i]$building_type=="Residential")
         nyc_gas_residential <- rbind(nyc_gas_residential, nyc_gas_data[i])
 }
-# ========================================
 
 # ========================================
 # ******* Creating Color Schemes  ********
+# ========================================
 monoGreen <- c('#83C659', '#699F48', '#4F7837', '#355126', '#1B2A15', '#000000')
 complimentGreen <- c('#83C659', '#82AA69', '#818E79', '#807289', '#7F5699', '#7C39A6')
 analogGreen <- c('#C69B59', '#C6C059', '#A7C659', '#83C659', '#5EC659', '#59C677')
@@ -124,8 +123,6 @@ analogBlue <- c('#2AB58B', '#2AB0B5', '#2A82B5', '#2B54B5', '#302AB5', '#5E2AB5'
 monoColorChoices <- c(monoGreen, monoTeal, monoRed, monoPurple, monoBlue)
 complimentColorChoices <- c(complimentGreen, complimentTeal, complimentRed, complimentPurple, complimentBlue)
 analogColorChoices <- c(analogGreen, analogTeal, analogRed, analogPurple, analogBlue)
-# ========================================
-
 
 ui <- fluidPage(
     # Application title
